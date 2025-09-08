@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: sazzler-api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: sazzler-product-service
+              uri: lb://sazzler-product-service
+              predicates:
+                - Path=/product/**
+              filters:
+                #removes the first path segment (/product) before forwarding.
+                - StripPrefix=1
+
+            - id: sazzler-order-service
+              uri: lb://sazzler-order-service
+              predicates:
+                - Path=/order/**
+              filters:
+                #removes the first path segment (/order) before forwarding.
+                - StripPrefix=1
+server:
+  port: 8080
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+        defaultZone: http://amodhyh:1234@localhost:8761/eureka/

@@ -9,18 +9,25 @@ spring:
             - id: sazzler-product-service
               uri: lb://sazzler-product-service
               predicates:
-                - Path=/product/**
+                - Path=api/product/**
               filters:
-                #removes the first path segment (/product) before forwarding.
+                #removes the first path segment (/api) before forwarding.
                 - StripPrefix=1
 
             - id: sazzler-order-service
               uri: lb://sazzler-order-service
               predicates:
-                - Path=/order/**
+                - Path=api/order/**
               filters:
                 #removes the first path segment (/order) before forwarding.
                 - StripPrefix=1
+
+            - id: sazzler-auth-service
+              uri: lib//sazzler-auth-service
+              predicates:
+                    - Path=api/auth/**
+              filters:
+                    - StripPrefix=1
 server:
   port: 8080
 

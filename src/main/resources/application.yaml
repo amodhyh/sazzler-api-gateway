@@ -9,27 +9,29 @@ spring:
             - id: sazzler-product-service
               uri: lb://sazzler-product-service
               predicates:
-                - Path=api/product/**
+                - Path=/api/product/**
               filters:
-                #removes the first path segment (/api) before forwarding.
                 - StripPrefix=1
 
             - id: sazzler-order-service
               uri: lb://sazzler-order-service
               predicates:
-                - Path=api/order/**
+                - Path=/api/order/**
               filters:
-                #removes the first path segment (/order) before forwarding.
                 - StripPrefix=1
 
             - id: sazzler-auth-service
-              uri: lib//sazzler-auth-service
+              uri: lb://sazzler-auth-service
               predicates:
-                    - Path=api/auth/**
+                - Path=/api/auth/**
               filters:
-                    - StripPrefix=1
+                - StripPrefix=1
 server:
   port: 8080
+
+jwt:
+    secret: 27f9bcfc4523599275abbb317f7117e8e864e7f31c2198c45df93f6c2d1a9ce7
+    expiration: 3600000 # (1 hour)
 
 eureka:
   instance:
